@@ -1,6 +1,7 @@
 {
 	"cache": true,
 	"cachePattern": "cacheAside",
+	"basePath": "",
 	"models": [
 		{
 			"id": "CMSApp",
@@ -8,6 +9,7 @@
 			"schema": {
 				"dest": "src/middleware/entities",
 				"name": "CMSApp",
+				"propDefSeperator": "|",
 				"properties": {
 					"_id": "String|fn:uuid",
 					"name": "String",

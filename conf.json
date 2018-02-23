@@ -1,6 +1,0 @@
-{
-    "indexDir": "./",
-    "routeDir": "./src/middleware/routes/",
-    "modelDir": "./src/middleware/models/",
-    "controllerDir": "./src/middleware/controllers/"
-}
