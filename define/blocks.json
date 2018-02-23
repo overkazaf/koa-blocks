@@ -26,8 +26,9 @@
 			},
 			"route": {
 				"dest": "src/middleware/routes",
-				"prefix": "cms",
+				"prefix": "cms/",
 				"name": "cmsApp",
+				"ctrlName": "cmsApp",
 				"routes": [
 					{
 						"method": "GET",
@@ -36,12 +37,12 @@
 					},
 					{
 						"method": "GET",
-						"path": "app/:bundleId",
+						"path": "apps/:bundleId",
 						"controller": "@findAll"
 					},
 					{
 						"method": "GET",
-						"path": "app/:bundleId",
+						"path": "apps/:bundleId",
 						"controller": "@pageFind"
 					},
 					{
@@ -51,7 +52,7 @@
 					},
 					{
 						"method": "PUT",
-						"path": "app",
+						"path": "apps",
 						"controller": "@saveAll"
 					},
 					{
@@ -61,7 +62,7 @@
 					},
 					{
 						"method": "DELETE",
-						"path": "app",
+						"path": "apps",
 						"controller": "@removeAll"
 					},
 					{
@@ -71,12 +72,15 @@
 					},
 					{
 						"method": "POST",
-						"path": "app",
+						"path": "apps",
 						"controller": "@updateAll"
 					}
 				]
 			},
 			"controller": {
+				"dest": "src/middleware/controllers",
+				"name": "cmsApp",
+				"model": "CMSApp",
 				"default": {
 					"@findOne": true,
 					"@findAll": true,

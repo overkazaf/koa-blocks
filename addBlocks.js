@@ -11,7 +11,7 @@ function pipe(cpstd) {
 function camelize(str) {
     return str.replace(/^([A-Z]+)([A-Z])/, function(match, $1, $2) {
         return match.replace($1, $1.toLowerCase());
-    })
+    });
 }
 
 /**
@@ -23,8 +23,12 @@ function camelize(str) {
  * @return {[type]}      [description]
  */
 function cleanUselessJSCode(code) {
-    const ast = esprima.parse(code);
-    console.log('cleanUselessCode', ast);
+    try {
+        const ast = esprima.parse(code);
+        console.log('cleanUselessCode', ast);
+    } catch(e) {
+        console.error(e);
+    }
 
     return code;
 }
@@ -40,6 +44,36 @@ function compileFileSync(metaType, config) {
                 return camelize(config.name);
             } else if (group === 'SCHEMA_CONTENT'){
                 return Schema.prototype.buildSchemaContent(config);
+            } else {
+                return group;
+            }
+        });
+        return targetContent;
+    } else if (metaType === 'Controller') {
+        const tpl = fs.readFileSync(path.join(__dirname, 'tpls/controller.tpl'));
+        const targetContent = tpl.toString().replace(/{{(.*?)}}/gm, function(match, group) {
+            // console.log('arguments', config.name);
+            if (group === 'Model') {
+                return config.model;
+            } else {
+                return group;
+            }
+        });
+        return targetContent;
+    } else if (metaType === 'Route') {
+        const tpl = fs.readFileSync(path.join(__dirname, 'tpls/route.tpl'));
+        const targetContent = tpl.toString().replace(/{{(.*?)}}/gm, function(match, group) {
+            if (group === 'ctrlName') {
+                return config.ctrlName;
+            } else if (group === 'prefix') {
+                return config.prefix;
+            } else if (group === 'DEFAULT') {
+                const routersContent = config.routes.map(function(route) {
+                    const { method, path, controller } = route;
+                    return `router.${method.toLowerCase()}('${path}', ${config.ctrlName}Ctrl.${controller.substring(1)})`;
+                });
+
+                return routersContent.join('\r\n');
             } else {
                 return group;
             }
@@ -133,34 +167,45 @@ function Model(model) {
 
 
 
-Model.prototype.build = function() {
+Model.prototype.build = async function() {
     if (this.force) {
-        this.buildSchema();
-        // this.buildRoute();
-        // this.buildController();
+        await this.buildSchema();
+        await this.buildRoute();
+        await this.buildController();
     }
 }
 
-Model.prototype.buildSchema = function() {
+Model.prototype.buildComponent = async function(type) {
     const {
         dest,
         name,
-        properties,
-    } = this.schema;
+    } = this[type];
 
-    const cpstd = cp.exec(`mkdir -p ${dest}`);
+    const cpstd = await cp.exec(`mkdir -p ${dest}`);
     pipe(cpstd);
 
     const fileName = `${dest}/${name}.js`;
     const fd = fs.openSync(fileName, 'w+');
-    const content = compileFileSync('Schema', this.schema, this.schema);
+    const componentName = type.charAt(0).toUpperCase() + type.substring(1);
+    const content = compileFileSync(componentName, this[type], this[type]);
     const cleanedContent = cleanUselessJSCode(content);
-    fs.write(fd, `${cleanedContent}`, function(err, data) {
+    return await fs.write(fd, `${cleanedContent}`, function(err, length) {
         if (err) throw err;
-        console.log('data', data);
+        console.log(`${componentName} has been successfully generated with length: `, length);
     });
-
 }
+
+Model.prototype.buildSchema = function() {
+    Model.prototype.buildComponent.call(this, 'schema');
+}
+
+Model.prototype.buildController = function() {
+    Model.prototype.buildComponent.call(this, 'controller');
+}
+
+Model.prototype.buildRoute = function() {
+    Model.prototype.buildComponent.call(this, 'route');
+};
 
 
 Blocks.prototype.initModels = function() {
@@ -175,12 +220,15 @@ Blocks.prototype.compose = function() {
     });
 }
 
-const def = fs.readFileSync('./define/blocks.json');
-const config = JSON.parse(def.toString());
+function main() {
+    const def = fs.readFileSync('./define/blocks.json');
+    const config = JSON.parse(def.toString());
+    const blocks = new Blocks(config);
 
-const blocks = new Blocks(config);
+    blocks.initModels();
+    blocks.compose();
+}
 
-blocks.initModels();
-blocks.compose();
+main();
 
 // console.log("blocks", blocks.models[0]);

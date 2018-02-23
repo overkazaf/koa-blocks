@@ -1,24 +1,24 @@
 const mongoose = require('mongoose');
 
 /**
- * 模板代码，默认生成的{{Model}} 相关CRUD接口（单个及批量的方式）
+ * 模板代码，默认生成的CMSApp 相关CRUD接口（单个及批量的方式）
  */
 // <Default>
 // route:  GET /cms/template/:p1/:p2/.../:pN
 exports.findOne = async function(ctx) {
   // find single model instance
-  const {{Model}} = mongoose.model('{{Model}}');
-  {{Model}}.findOne(ctx.params, function(err, data) {
+  const CMSApp = mongoose.model('CMSApp');
+  CMSApp.findOne(ctx.params, function(err, data) {
     if (err) {
       ctx.body = JSON.stringify({
-        code: '{{MODEL_ERROR_CODE.FIND_ONE}}',
-        msg: '{{MODEL_ERROR_MSG.FIND_ONE}}',
+        code: 'MODEL_ERROR_CODE.FIND_ONE',
+        msg: 'MODEL_ERROR_MSG.FIND_ONE',
         data: err,
       });
     } else {
       ctx.body = JSON.stringify({
         code: 0,
-        msg: '{{MODEL_SUCCESS_MSG.FIND_ONE}}',
+        msg: 'MODEL_SUCCESS_MSG.FIND_ONE',
         data: data,
       });
     }
@@ -28,18 +28,18 @@ exports.findOne = async function(ctx) {
 // route:  GET /cms/templates/:p1/:p2/.../:pN
 exports.findAll = async function(ctx) {
   // find multiple model instances
-  const {{Model}} = mongoose.model('{{Model}}');
-  {{Model}}.find(ctx.params, function(err, data) {
+  const CMSApp = mongoose.model('CMSApp');
+  CMSApp.find(ctx.params, function(err, data) {
     if (err) {
       ctx.body = JSON.stringify({
-        code: '{{MODEL_ERROR_CODE.FIND_ALL}}',
-        msg: '{{MODEL_ERROR_MSG.FIND_ALL}}',
+        code: 'MODEL_ERROR_CODE.FIND_ALL',
+        msg: 'MODEL_ERROR_MSG.FIND_ALL',
         data: err,
       });
     } else {
       ctx.body = JSON.stringify({
         code: 0,
-        msg: '{{MODEL_SUCCESS_MSG.FIND_ALL}}',
+        msg: 'MODEL_SUCCESS_MSG.FIND_ALL',
         data: data,
       });
     }
@@ -57,17 +57,17 @@ exports.pageFind = async function(ctx) {
   delete condition.pageNo;
   delete condition.pageSize;
 
-  {{Model}}.find(condition).skip(skipnum).limit(pageSize).exec(function(err, data) {
+  CMSApp.find(condition).skip(skipnum).limit(pageSize).exec(function(err, data) {
     if (err) {
       ctx.body = JSON.stringify({
-        code: '{{MODEL_ERROR_CODE.PAGE_FIND}}',
-        msg: '{{MODEL_ERROR_MSG.PAGE_FIND}}',
+        code: 'MODEL_ERROR_CODE.PAGE_FIND',
+        msg: 'MODEL_ERROR_MSG.PAGE_FIND',
         data: err,
       });
     } else {
       ctx.body = JSON.stringify({
         code: 0,
-        msg: '{{MODEL_SUCCESS_MSG.PAGE_FIND}}',
+        msg: 'MODEL_SUCCESS_MSG.PAGE_FIND',
         data: data,
       });
     }
