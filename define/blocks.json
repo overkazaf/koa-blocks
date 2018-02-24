@@ -1,7 +1,7 @@
 {
 	"cache": true,
 	"cachePattern": "cacheAside",
-	"basePath": "",
+	"basePath": "./",
 	"models": [
 		{
 			"id": "CMSApp",
@@ -26,53 +26,53 @@
 			},
 			"route": {
 				"dest": "src/middleware/routes",
-				"prefix": "cms/",
+				"prefix": "cms",
 				"name": "cmsApp",
 				"ctrlName": "cmsApp",
 				"routes": [
 					{
 						"method": "GET",
-						"path": "app/:bundleId:/version",
+						"path": "/app/:bundleId:/version",
 						"controller": "@findOne"
 					},
 					{
 						"method": "GET",
-						"path": "apps/:bundleId",
+						"path": "/apps/:bundleId",
 						"controller": "@findAll"
 					},
 					{
 						"method": "GET",
-						"path": "apps/:bundleId",
+						"path": "/apps/:bundleId",
 						"controller": "@pageFind"
 					},
 					{
 						"method": "PUT",
-						"path": "app",
+						"path": "/app",
 						"controller": "@saveOne"
 					},
 					{
 						"method": "PUT",
-						"path": "apps",
+						"path": "/apps",
 						"controller": "@saveAll"
 					},
 					{
 						"method": "DELETE",
-						"path": "app",
+						"path": "/app/:bundleId/:version",
 						"controller": "@removeOne"
 					},
 					{
 						"method": "DELETE",
-						"path": "apps",
+						"path": "/apps/bundleId",
 						"controller": "@removeAll"
 					},
 					{
 						"method": "POST",
-						"path": "app",
+						"path": "/app",
 						"controller": "@updateOne"
 					},
 					{
 						"method": "POST",
-						"path": "apps",
+						"path": "/apps",
 						"controller": "@updateAll"
 					}
 				]

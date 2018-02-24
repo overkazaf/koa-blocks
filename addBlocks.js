@@ -25,9 +25,15 @@ function camelize(str) {
 function cleanUselessJSCode(code) {
     try {
         const ast = esprima.parse(code);
-        console.log('cleanUselessCode', ast);
+        // console.log('cleanUselessCode', ast);
     } catch(e) {
-        console.error(e);
+
+        console.error("||||||||||||||||||||||||||||||||||||||||");
+        console.error("|| Failed to generate valid js file!!!", e);
+        console.error("|| Failed to generate valid js file!!!", e);
+        console.error("|| Failed to generate valid js file!!!", e);
+        console.error("|| Failed to generate valid js file!!!", e);
+        console.error("||||||||||||||||||||||||||||||||||||||||");
     }
 
     return code;
@@ -37,7 +43,6 @@ function compileFileSync(metaType, config) {
     if (metaType === 'Schema') {
         const tpl = fs.readFileSync(path.join(__dirname, 'tpls/model.tpl'));
         const targetContent = tpl.toString().replace(/{{(.*?)}}/gm, function(match, group) {
-            // console.log('arguments', config.name);
             if (group === 'SchemaName') {
                 return config.name;
             } else if (group === 'schemaName') {
@@ -52,9 +57,12 @@ function compileFileSync(metaType, config) {
     } else if (metaType === 'Controller') {
         const tpl = fs.readFileSync(path.join(__dirname, 'tpls/controller.tpl'));
         const targetContent = tpl.toString().replace(/{{(.*?)}}/gm, function(match, group) {
-            // console.log('arguments', config.name);
             if (group === 'Model') {
                 return config.model;
+            } else if (group === 'model') {
+                return config.model.toLowerCase();
+            } else if (group === 'models') {
+                return config.model.toLowerCase() + 's';
             } else {
                 return group;
             }
@@ -70,10 +78,12 @@ function compileFileSync(metaType, config) {
             } else if (group === 'DEFAULT') {
                 const routersContent = config.routes.map(function(route) {
                     const { method, path, controller } = route;
-                    return `router.${method.toLowerCase()}('${path}', ${config.ctrlName}Ctrl.${controller.substring(1)})`;
+                    return `router.${method.toLowerCase()}('${path}', ctx => ${config.ctrlName}Ctrl.${controller.substring(1)}.call(null, ctx));`;
                 });
 
                 return routersContent.join('\r\n');
+            } else if (group === 'EXTEND') {
+                return '// Extended plugin system is under development';
             } else {
                 return group;
             }
@@ -206,7 +216,6 @@ Model.prototype.buildController = function() {
 Model.prototype.buildRoute = function() {
     Model.prototype.buildComponent.call(this, 'route');
 };
-
 
 Blocks.prototype.initModels = function() {
     this.models = this.config.models.map(function(model) {

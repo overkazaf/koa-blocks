@@ -6,20 +6,20 @@ const koaBody = require('koa-body');
 logger.level = 'debug';
 
 const router = new Router({
-  prefix: 'cms/'
+  prefix: 'cms'
 });
 
 // default routers
-router.get('app/:bundleId:/version', cmsAppCtrl.findOne)
-router.get('apps/:bundleId', cmsAppCtrl.findAll)
-router.get('apps/:bundleId', cmsAppCtrl.pageFind)
-router.put('app', cmsAppCtrl.saveOne)
-router.put('apps', cmsAppCtrl.saveAll)
-router.delete('app', cmsAppCtrl.removeOne)
-router.delete('apps', cmsAppCtrl.removeAll)
-router.post('app', cmsAppCtrl.updateOne)
-router.post('apps', cmsAppCtrl.updateAll)
+router.get('/app/:bundleId:/version', ctx => cmsAppCtrl.findOne.call(null, ctx));
+router.get('/apps/:bundleId', ctx => cmsAppCtrl.findAll.call(null, ctx));
+router.get('/apps/:bundleId', ctx => cmsAppCtrl.pageFind.call(null, ctx));
+router.put('/app', ctx => cmsAppCtrl.saveOne.call(null, ctx));
+router.put('/apps', ctx => cmsAppCtrl.saveAll.call(null, ctx));
+router.delete('/app/:bundleId/:version', ctx => cmsAppCtrl.removeOne.call(null, ctx));
+router.delete('/apps/bundleId', ctx => cmsAppCtrl.removeAll.call(null, ctx));
+router.post('/app', ctx => cmsAppCtrl.updateOne.call(null, ctx));
+router.post('/apps', ctx => cmsAppCtrl.updateAll.call(null, ctx));
 
 // extend routers
-EXTEND
+// Extended plugin system is under development
 module.exports = router;
