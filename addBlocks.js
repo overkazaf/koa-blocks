@@ -25,7 +25,7 @@ function camelize(str) {
 function cleanUselessJSCode(code) {
     try {
         const ast = esprima.parse(code);
-        // console.log('cleanUselessCode', ast);
+        // console.log('cleanUselessCode', ast);t
     } catch(e) {
 
         console.error("||||||||||||||||||||||||||||||||||||||||");
@@ -78,7 +78,8 @@ function compileFileSync(metaType, config) {
             } else if (group === 'DEFAULT') {
                 const routersContent = config.routes.map(function(route) {
                     const { method, path, controller } = route;
-                    return `router.${method.toLowerCase()}('${path}', ctx => ${config.ctrlName}Ctrl.${controller.substring(1)}.call(null, ctx));`;
+                    const parseBody = method == 'PUT' || method == 'POST' ? 'koaBody({textLimit: "2mb"}), ' : '';
+                    return `router.${method.toLowerCase()}('${path}', ${parseBody}ctx => ${config.ctrlName}Ctrl.${controller.substring(1)}.call(null, ctx));`;
                 });
 
                 return routersContent.join('\r\n');

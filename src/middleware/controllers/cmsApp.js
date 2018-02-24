@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const ResponseDTO = require('../entity/ResponseDTO');
 
 /**
  * 模板代码，默认生成的CMSApp 相关CRUD接口（单个及批量的方式）
@@ -8,7 +9,7 @@ const mongoose = require('mongoose');
 exports.findOne = async function(ctx) {
   // find single model instance
   const CMSApp = mongoose.model('CMSApp');
-  CMSApp.findOne(ctx.params, function(err, data) {
+  return await CMSApp.findOne(ctx.params, function(err, data) {
     if (err) {
       ctx.body = JSON.stringify({
         code: 'MODEL_ERROR_CODE.FIND_ONE',
@@ -29,7 +30,8 @@ exports.findOne = async function(ctx) {
 exports.findAll = async function(ctx) {
   // find multiple model instances
   const CMSApp = mongoose.model('CMSApp');
-  CMSApp.find(ctx.params, function(err, data) {
+
+  return await CMSApp.find(ctx.params, (err, data) => {
     if (err) {
       ctx.body = JSON.stringify({
         code: 'MODEL_ERROR_CODE.FIND_ALL',
@@ -57,7 +59,7 @@ exports.pageFind = async function(ctx) {
   delete condition.pageNo;
   delete condition.pageSize;
 
-  CMSApp.find(condition).skip(skipnum).limit(pageSize).exec(function(err, data) {
+  return await CMSApp.find(condition).skip(skipnum).limit(pageSize).exec(function(err, data) {
     if (err) {
       ctx.body = JSON.stringify({
         code: 'MODEL_ERROR_CODE.PAGE_FIND',
