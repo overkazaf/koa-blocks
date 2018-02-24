@@ -50,6 +50,8 @@ exports.findAll = async function(ctx) {
 
 exports.pageFind = async function(ctx) {
   // find multiple model instances by pagination
+  const CMSApp = mongoose.model('CMSApp');
+
   const {
     pageNo,
     pageSize,
@@ -59,7 +61,9 @@ exports.pageFind = async function(ctx) {
   delete condition.pageNo;
   delete condition.pageSize;
 
-  return await CMSApp.find(condition).skip(skipnum).limit(pageSize).exec(function(err, data) {
+  console.log('condition', condition);
+
+  return await CMSApp.find(condition).skip(skipnum).limit(+pageSize).exec(function(err, data) {
     if (err) {
       ctx.body = JSON.stringify({
         code: 'MODEL_ERROR_CODE.PAGE_FIND',
