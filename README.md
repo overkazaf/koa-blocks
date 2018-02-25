@@ -14,6 +14,21 @@ yarn
 node index.js
 ```
 
+# Try
+```bash
+
+***findOne***
+
+curl -L http://localhost:3001/cms/app/com.tucao.test/1.0.1
+curl -L http://localhost:3001/cms/app/com.tucao.test/1.0.2
+
+***findAll***
+curl -L http://localhost:3001/cms/apps/com.tucao.test
+
+***pageFind***
+curl -L http://localhost:3001/cms/apps/com.tucao.test/2/2
+```
+
 # Author
 overkazaf
 
