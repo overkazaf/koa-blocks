@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "chalk": "^2.3.1",
+    "commander": "^2.14.1",
     "esprima": "^4.0.0",
     "kcors": "^2.2.1",
     "koa": "^2.5.0",

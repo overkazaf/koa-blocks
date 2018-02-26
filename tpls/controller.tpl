@@ -61,8 +61,6 @@ exports.pageFind = async function(ctx) {
   delete condition.pageNo;
   delete condition.pageSize;
 
-  console.log('condition', condition);
-
   return await {{Model}}.find(condition).skip(skipnum).limit(+pageSize).exec(function(err, data) {
     if (err) {
       ctx.body = JSON.stringify({
