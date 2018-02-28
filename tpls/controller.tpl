@@ -13,13 +13,13 @@ exports.findOne = async function(ctx) {
     if (err) {
       ctx.body = JSON.stringify({
         code: '{{MODEL_ERROR_CODE.FIND_ONE}}',
-        msg: '{{MODEL_ERROR_MSG.FIND_ONE}}',
+        message: '{{MODEL_ERROR_MSG.FIND_ONE}}',
         data: err,
       });
     } else {
       ctx.body = JSON.stringify({
         code: 0,
-        msg: '{{MODEL_SUCCESS_MSG.FIND_ONE}}',
+        message: '{{MODEL_SUCCESS_MSG.FIND_ONE}}',
         data: data,
       });
     }
@@ -35,13 +35,13 @@ exports.findAll = async function(ctx) {
     if (err) {
       ctx.body = JSON.stringify({
         code: '{{MODEL_ERROR_CODE.FIND_ALL}}',
-        msg: '{{MODEL_ERROR_MSG.FIND_ALL}}',
+        message: '{{MODEL_ERROR_MSG.FIND_ALL}}',
         data: err,
       });
     } else {
       ctx.body = JSON.stringify({
         code: 0,
-        msg: '{{MODEL_SUCCESS_MSG.FIND_ALL}}',
+        message: '{{MODEL_SUCCESS_MSG.FIND_ALL}}',
         data: data,
       });
     }
@@ -65,13 +65,13 @@ exports.pageFind = async function(ctx) {
     if (err) {
       ctx.body = JSON.stringify({
         code: '{{MODEL_ERROR_CODE.PAGE_FIND}}',
-        msg: '{{MODEL_ERROR_MSG.PAGE_FIND}}',
+        message: '{{MODEL_ERROR_MSG.PAGE_FIND}}',
         data: err,
       });
     } else {
       ctx.body = JSON.stringify({
         code: 0,
-        msg: '{{MODEL_SUCCESS_MSG.PAGE_FIND}}',
+        message: '{{MODEL_SUCCESS_MSG.PAGE_FIND}}',
         data: data,
       });
     }
