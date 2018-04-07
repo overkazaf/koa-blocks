@@ -1,0 +1,12 @@
+(model
+	(schema
+	)
+
+	(router
+
+	)
+
+	(controller
+
+	)
+)

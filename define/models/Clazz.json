@@ -1,0 +1,79 @@
+{
+	"id": "Clazz",
+	"force": true,
+	"schema": {
+		"dest": "src/middleware/entities",
+		"name": "Clazz",
+		"propDefSeperator": "|",
+		"properties": {
+			"classId": "String|fn:uuid",
+			"className": "String"
+		}
+	},
+	"route": {
+		"dest": "src/middleware/routes",
+		"prefix": "/clazz",
+		"name": "clazz",
+		"ctrlName": "clazz",
+		"routes": [
+			{
+				"method": "GET",
+				"path": "/clazz/:clazzName",
+				"controller": "@findOne"
+			},
+			{
+				"method": "GET",
+				"path": "/clazzs",
+				"controller": "@findAll"
+			},
+			{
+				"method": "GET",
+				"path": "/clazzs/:pageSize/:pageNo",
+				"controller": "@pageFind"
+			},
+			{
+				"method": "PUT",
+				"path": "/clazz",
+				"controller": "@saveOne"
+			},
+			{
+				"method": "PUT",
+				"path": "/clazzs",
+				"controller": "@saveAll"
+			},
+			{
+				"method": "DEL",
+				"path": "/clazz/:clazzId",
+				"controller": "@removeOne"
+			},
+			{
+				"method": "POST",
+				"path": "/clazz",
+				"controller": "@updateOne"
+			},
+			{
+				"method": "POST",
+				"path": "/clazzs",
+				"controller": "@updateAll"
+			}
+		]
+	},
+	"controller": {
+		"dest": "src/middleware/controllers",
+		"name": "clazz",
+		"model": "clazz",
+		"default": {
+			"@findOne": true,
+			"@findAll": true,
+			"@pageFind": true,
+			"@saveOne": true,
+			"@saveAll": true,
+			"@removeOne": true,
+			"@updateOne": true,
+			"@updateAll": true
+		},
+		"extend": {
+			"@myMethod": true
+		}
+	}
+}

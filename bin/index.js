@@ -15,3 +15,4 @@ program
   })
   .parse(process.argv);
  
+ console.log('definition', definition);

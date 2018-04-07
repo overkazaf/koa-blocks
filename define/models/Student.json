@@ -1,0 +1,89 @@
+{
+	"id": "Student",
+	"force": true,
+	"schema": {
+		"dest": "src/middleware/entities",
+		"name": "Student",
+		"propDefSeperator": "|",
+		"properties": {
+			"studentId": "String|fn:uuid",
+			"name": "String",
+			"clazzId": {
+				"type": "mongoose.Schema.ObjectId",
+				"ref": "Clazz"
+			},
+		}
+	},
+	"route": {
+		"dest": "src/middleware/routes",
+		"prefix": "/student",
+		"name": "student",
+		"ctrlName": "student",
+		"routes": [
+			{
+				"method": "GET",
+				"path": "/student/:studentId",
+				"controller": "@findOne"
+			},
+			{
+				"method": "GET",
+				"path": "/students/:clazzId",
+				"controller": "@findAll"
+			},
+			{
+				"method": "GET",
+				"path": "/students/:pageSize/:pageNo",
+				"controller": "@pageFind"
+			},
+			{
+				"method": "PUT",
+				"path": "/student",
+				"controller": "@saveOne"
+			},
+			{
+				"method": "PUT",
+				"path": "/students",
+				"controller": "@saveAll"
+			},
+			{
+				"method": "DEL",
+				"path": "/student/:studentId",
+				"controller": "@removeOne"
+			},
+			{
+				"method": "DEL",
+				"path": "/students/:clazzId",
+				"controller": "@removeAll"
+			},
+			{
+				"method": "POST",
+				"path": "/student",
+				"controller": "@updateOne"
+			},
+			{
+				"method": "POST",
+				"path": "/students",
+				"controller": "@updateAll"
+			}
+		]
+	},
+	"controller": {
+		"dest": "src/middleware/controllers",
+		"name": "student",
+		"model": "student",
+		"default": {
+			"@findOne": true,
+			"@findAll": true,
+			"@pageFind": true,
+			"@saveOne": true,
+			"@saveAll": true,
+			"@removeOne": true,
+			"@removeAll": true,
+			"@updateOne": true,
+			"@updateAll": true
+		},
+		"extend": {
+			"@myMethod": true
+		}
+	}
+}

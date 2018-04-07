@@ -2,6 +2,7 @@ const cp = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const esprima = require('esprima');
+const config = require('./define/blocks.js');
 
 function pipe(cpstd) {
     cpstd.stdout.pipe(process.stdout);
@@ -137,6 +138,9 @@ Schema.prototype.buildSchemaContent = function(config) {
             const generatedPropValue = propValueGenFn(type, fn);
 
             return `${propKey}: ${generatedPropValue},`;
+        } else if (typeof properties[propKey] === 'object') {
+            // 含外键的场景
+            return `${propKey}: ${properties[propKey]},`;
         } else {
             return `${propKey}: ${properties[propKey]},`;
         }
@@ -230,9 +234,8 @@ Blocks.prototype.compose = function() {
     });
 }
 
+
 function main() {
-    const def = fs.readFileSync('./define/blocks.json');
-    const config = JSON.parse(def.toString());
     const blocks = new Blocks(config);
 
     blocks.initModels();

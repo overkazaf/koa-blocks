@@ -1,0 +1,94 @@
+{
+	"id": "CMSApp",
+	"force": true,
+	"schema": {
+		"dest": "src/middleware/entities",
+		"name": "CMSApp",
+		"propDefSeperator": "|",
+		"properties": {
+			"_id": "String|fn:uuid",
+			"name": "String",
+			"bundleId": "String",
+			"version": "String",
+			"savedPath": "String",
+			"createor": "String",
+			"appType": "String",
+			"platform": "String",
+			"publishedPath": "String",
+			"createDate": "Date",
+			"lastUpdateDate": "Date"
+		}
+	},
+	"route": {
+		"dest": "src/middleware/routes",
+		"prefix": "/cms",
+		"name": "cmsApp",
+		"ctrlName": "cmsApp",
+		"routes": [
+			{
+				"method": "GET",
+				"path": "/app/:bundleId/:version",
+				"controller": "@findOne"
+			},
+			{
+				"method": "GET",
+				"path": "/apps/:bundleId",
+				"controller": "@findAll"
+			},
+			{
+				"method": "GET",
+				"path": "/apps/:bundleId/:pageSize/:pageNo",
+				"controller": "@pageFind"
+			},
+			{
+				"method": "PUT",
+				"path": "/app",
+				"controller": "@saveOne"
+			},
+			{
+				"method": "PUT",
+				"path": "/apps",
+				"controller": "@saveAll"
+			},
+			{
+				"method": "DEL",
+				"path": "/app/:bundleId/:version",
+				"controller": "@removeOne"
+			},
+			{
+				"method": "DEL",
+				"path": "/apps/:bundleId",
+				"controller": "@removeAll"
+			},
+			{
+				"method": "POST",
+				"path": "/app",
+				"controller": "@updateOne"
+			},
+			{
+				"method": "POST",
+				"path": "/apps",
+				"controller": "@updateAll"
+			}
+		]
+	},
+	"controller": {
+		"dest": "src/middleware/controllers",
+		"name": "cmsApp",
+		"model": "CMSApp",
+		"default": {
+			"@findOne": true,
+			"@findAll": true,
+			"@pageFind": true,
+			"@saveOne": true,
+			"@saveAll": true,
+			"@removeOne": true,
+			"@removeAll": true,
+			"@updateOne": true,
+			"@updateAll": true
+		},
+		"extend": {
+			"@myMethod": true
+		}
+	}
+}
